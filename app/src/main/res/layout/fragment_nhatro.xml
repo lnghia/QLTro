@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/motel_name"
+            android:id="@+id/nhatro_banner">
+
+            <ImageView
+                android:id="@+id/room_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="center"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:src="@drawable/room" />
+
+            <ImageView
+                android:id="@+id/available_rooms_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="center"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:src="@drawable/buildings" />
+
+            <ImageView
+                android:id="@+id/customer_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="center"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:src="@drawable/lineal" />
+
+            <TextView
+                android:id="@+id/room_num_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 Phòng"
+                android:textSize="20sp"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="center"
+                android:textColor="@color/normalText"/>
+
+            <TextView
+                android:id="@+id/available_room_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 Phòng"
+                android:textSize="20sp"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="center"
+                android:textColor="@color/normalText"/>
+
+            <TextView
+                android:id="@+id/customer_num_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 Khách"
+                android:textSize="20sp"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="center"
+                android:textColor="@color/normalText"/>
+
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/motel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên Trọ"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/normalText"/>
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_grid_view"
+            app:layout_constraintTop_toBottomOf="@+id/nhatro_banner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="5dp"
+            android:numColumns="3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

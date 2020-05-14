@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="available">#2ba133</color>
+    <color name="alreadyTaken">#d75519</color>
+    <color name="underConstruction">#fadc2e</color>
+    <color name="actionBar">#1a3365</color>
+    <color name="normalText">#000</color>
+</resources>
