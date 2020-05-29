@@ -1,6 +1,7 @@
 package com.example.qltr.phongtro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -14,6 +15,7 @@ import com.example.qltr.Adapters.CustomGridViewAdapter;
 import com.example.qltr.Adapters.RoomButtonViewAdapter;
 import com.example.qltr.R;
 import com.example.qltr.login.LoginContract;
+import com.example.qltr.phongtro.ThemPhTr.ThemPhongTro;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -75,7 +77,9 @@ public class PhongTroFragment extends Fragment {
         addRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Them", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), ThemPhongTro.class);
+
+                startActivity(intent);
             }
         });
     }

@@ -9,19 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login.LoginActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
-        <activity android:name=".main.MainActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+        <activity android:name=".loadingscreen.LoadingActivity"></activity>
+        <activity android:name=".register.RegisterActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".cosovatchat.ThemCSVC.ThemCSVCActivity" />
+        <activity
+            android:name=".phongtro.ThemPhTr.ThemPhongTro"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".main.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

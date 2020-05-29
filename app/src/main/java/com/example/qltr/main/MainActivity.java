@@ -15,6 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 viewPager;
+    Bundle extras;
     String[] titles=new String[]{"Thống Kê", "Nhà Trọ", "Phòng Trọ", "Cài Đặt"};
     int[] tabIcons={
             R.drawable.statistic_icon,
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setView();
         init();
+
+        Toast.makeText(this, extras.getString("token"), Toast.LENGTH_LONG).show();
     }
 
     private void setView(){
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new SwipeViewPagerAdapter(this, 4));
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(titles[position])).attach();
         setTabIcon();
+
+        extras=getIntent().getExtras();
     }
 
     private void setTabIcon(){

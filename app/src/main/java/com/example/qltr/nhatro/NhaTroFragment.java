@@ -40,7 +40,7 @@ public class NhaTroFragment extends Fragment {
     public void initButtonView(){
         buttonsInfo=new ArrayList<Pair<String, Integer>>(){
             {
-                add(new Pair<String, Integer>("Dịch Vụ", R.drawable.miscellaneous));
+                add(new Pair<String, Integer>("Cơ sở vật chất", R.drawable.miscellaneous));
                 add(new Pair<String, Integer>("Tạo Hợp Đồng", R.drawable.business));
                 add(new Pair<String, Integer>("Thanh Lí Hợp Đồng", R.drawable.finishcontract));
                 add(new Pair<String, Integer>("Cọc Giữ Chỗ", R.drawable.payinad));
