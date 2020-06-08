@@ -2,7 +2,12 @@ package com.example.qltr.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.CountDownTimer;
 import android.widget.Toast;
 
 import com.example.APIHelpers.Worker;
@@ -13,6 +18,8 @@ import com.example.qltr.R;
 import com.google.gson.Gson;
 
 import java.util.regex.Pattern;
+
+import androidx.annotation.RequiresApi;
 
 public class LoginPresenter implements LoginContract.Presenter {
     private LoginContract.LoginView loginView;
@@ -73,8 +80,6 @@ public class LoginPresenter implements LoginContract.Presenter {
 
             usr = (SignedInAcc)worker.post.execute("https://quanlytro.herokuapp.com/users/login").get();
 
-
-
             Toast.makeText(mContext, usr.getToken(), Toast.LENGTH_LONG).show();
 
             if (usr.getSuccess()) {
@@ -86,6 +91,15 @@ public class LoginPresenter implements LoginContract.Presenter {
 //            e.printStackTrace();
             loginView.loginFailure("Lỗi xác thực !");
         }
+    }
+
+    @Override
+    public boolean isOnline() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo connectionInfo = connectivityManager.getActiveNetworkInfo();
+
+        return connectionInfo!=null &&  connectionInfo.isConnected();
     }
 
     @Override
