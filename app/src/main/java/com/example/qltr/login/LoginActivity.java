@@ -2,12 +2,14 @@ package com.example.qltr.login;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
@@ -48,10 +50,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     }
 
     @Override
-    protected  void onStart() {
+    protected void onStart() {
         super.onStart();
 
-        if(!presenter.isOnline()){
+        if (!presenter.isOnline()) {
             raiseConnectionAlert();
         }
     }
@@ -59,12 +61,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     private void initView() {
         userNameEdt = findViewById(R.id.username_input);
         passwordEdt = findViewById(R.id.password_input);
-        loginBtn=findViewById(R.id.login_btn);
-        registerTxt=findViewById(R.id.register_txt);
-        verificationProgress=findViewById(R.id.verification_progress);
-        verificationTxt=findViewById(R.id.verification_txt);
+        loginBtn = findViewById(R.id.login_btn);
+        registerTxt = findViewById(R.id.register_txt);
+        verificationProgress = findViewById(R.id.verification_progress);
+        verificationTxt = findViewById(R.id.verification_txt);
 
-        hideLoadingViews();
+//        hideLoadingViews();
     }
 
     private void initPresenter() {
@@ -90,20 +92,20 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
     @Override
     public void loginSuccess(String token) {
-        hideLoadingViews();
-
         sharedPreferences.edit().putString("username", token).apply();
 
         startActivity(new Intent(this, MainActivity.class).putExtra("token", token));
+
+        hideLoadingViews();
     }
 
     @Override
     public void loginFailure(String error) {
-        hideLoadingViews();
-
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
 
         resetTxtInput();
+
+        hideLoadingViews();
     }
 
     @Override
@@ -114,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
     @Override
     public void raiseConnectionAlert() {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Không thể kết nối internet !")
                 .setMessage("Xin vui lòng kết nối wifi hoặc 3g/4g rồi khởi động lại ứng dụng")
@@ -126,23 +128,23 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
                     }
                 });
 
-        AlertDialog alert=builder.create();
+        AlertDialog alert = builder.create();
 
         alert.show();
     }
 
     @Override
     public void loading() {
-        verificationTxt.setAlpha(0.8f);
-        verificationProgress.setAlpha(0.8f);
+        findViewById(R.id.verification_txt).setVisibility(View.VISIBLE);
+        findViewById(R.id.verification_progress).setVisibility(View.VISIBLE);
 
-        View view = this.getCurrentFocus();
+        View view = getCurrentFocus();
 
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-
+//
 //        verificationProgress.setVisibility(View.VISIBLE);
 //        verificationTxt.setVisibility(View.VISIBLE);
     }
@@ -151,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     public void hideLoadingViews() {
 //        verificationProgress.setVisibility(View.INVISIBLE);
 //        verificationTxt.setVisibility(View.INVISIBLE);
-        verificationTxt.setAlpha(0f);
-        verificationProgress.setAlpha(0f);
+        verificationTxt.setVisibility(View.INVISIBLE);
+        verificationProgress.setVisibility(View.INVISIBLE);
     }
 }
