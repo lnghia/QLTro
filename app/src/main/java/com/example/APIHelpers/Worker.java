@@ -1,5 +1,7 @@
 package com.example.APIHelpers;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -31,14 +33,16 @@ public class Worker<T>{
     public Gson gson;
     public GetHelper get;
     public PostHelper post;
+//    public Context context;
 
     public Worker(){}
 
-    public Worker(Class<T> cl){
+    public Worker(Class<T> cl/*, Context context*/){
         this.cl=cl;
         gson=new Gson();
         get=new GetHelper();
         post=new PostHelper();
+//        this.context=context;
     }
 
     public void setClass(Class<T> cl){
@@ -85,6 +89,7 @@ public class Worker<T>{
 
     public class PostHelper extends AsyncTask<String, Void, Object> {
         Object object;
+//        ProgressDialog progressDialog=new ProgressDialog(context);
 
         public PostHelper(){}
 
@@ -95,6 +100,12 @@ public class Worker<T>{
         public void setObject(Object obj){
             object=obj;
         }
+
+//        @Override
+//        protected void onPreExecute(){
+//            progressDialog.setCancelable(false);
+//            progressDialog.show();
+//        }
 
         //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -153,5 +164,10 @@ public class Worker<T>{
 
             return null;
         }
+
+//        @Override
+//        protected void onPostExecute(Object result){
+//            progressDialog.dismiss();
+//        }
     }
 }

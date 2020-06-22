@@ -1,5 +1,6 @@
 package com.example.qltr.login;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -8,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.APIHelpers.Worker;
@@ -60,7 +62,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     public LoginPresenter(LoginContract.LoginView view, Context mContext) {
         setView(view);
-        worker = new Worker<>(SignedInAcc.class);
+        worker = new Worker<>(SignedInAcc.class/*, mContext*/);
         this.mContext = mContext;
     }
 
@@ -74,14 +76,18 @@ public class LoginPresenter implements LoginContract.Presenter {
 //            loginView.loginFailure(mContext.getResources().getString(R.string.login_err_invalid_inp));
 //             return;
 //        }
+//        ProgressDialog progressDialog=new ProgressDialog(mContext);
+//        progressDialog.setCancelable(false);
+//        progressDialog.show();
 
         try {
             worker.post.setObject(new Account(userName, password));
 
             usr = (SignedInAcc)worker.post.execute("https://quanlytro.herokuapp.com/users/login").get();
 
-            Toast.makeText(mContext, usr.getToken(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(mContext, usr.getToken(), Toast.LENGTH_LONG).show();
 
+//            progressDialog.dismiss();
             if (usr.getSuccess()) {
                 loginView.loginSuccess(usr.getToken());
             } else {
@@ -89,7 +95,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             }
         } catch (Exception e) {
 //            e.printStackTrace();
-            loginView.loginFailure("Lỗi xác thực !");
+            loginView.loginFailure("Vui lòng kiểm tra kết nối Internet !");
         }
     }
 

@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".loadingscreen.LoadingActivity"></activity>
-        <activity android:name=".register.RegisterActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".cosovatchat.QLCSVC.QLCSVCActivity"></activity>
+        <activity android:name=".loadingscreen.LoadingActivity" />
+        <activity
+            android:name=".register.RegisterActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".cosovatchat.ThemCSVC.ThemCSVCActivity" />
         <activity
             android:name=".phongtro.ThemPhTr.ThemPhongTro"
@@ -30,8 +32,8 @@
             android:name=".main.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

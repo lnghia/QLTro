@@ -17,13 +17,13 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     private ResponseStatus status;
 
     public RegisterPresenter(){
-        wk=new Worker<>(ResponseStatus.class);
+        wk=new Worker<>(ResponseStatus.class/*, mContext*/);
     }
 
     public RegisterPresenter(RegisterContract.RegisterView view, Context context){
         registerView=view;
         mContext=context;
-        wk=new Worker<>(ResponseStatus.class);
+        wk=new Worker<>(ResponseStatus.class/*, mContext*/);
     }
 
     @Override

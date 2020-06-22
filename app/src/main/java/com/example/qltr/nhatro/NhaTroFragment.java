@@ -1,5 +1,6 @@
 package com.example.qltr.nhatro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.qltr.Adapters.CustomGridViewAdapter;
 import com.example.qltr.R;
+import com.example.qltr.cosovatchat.QLCSVC.QLCSVCActivity;
 
 import java.util.ArrayList;
 
@@ -59,6 +61,12 @@ public class NhaTroFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getContext(), Integer.toString(i), Toast.LENGTH_SHORT).show();
+
+                switch (i){
+                    case 0:
+                        startActivity(new Intent(getActivity(), QLCSVCActivity.class));
+                        break;
+                }
             }
         });
     }

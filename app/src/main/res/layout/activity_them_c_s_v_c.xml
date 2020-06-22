@@ -12,7 +12,7 @@
         android:layout_gravity="center_vertical">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/addFacBtn"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="64dp"
@@ -20,8 +20,9 @@
             android:text="Thêm"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ghi_chu_vat_chat_edt"
-            android:layout_marginTop="10dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/facility_note_edt"
+            android:layout_marginTop="10dp"
+            android:onClick="addFacilityOnClick"/>
 
         <Button
             android:layout_width="120dp"
@@ -31,49 +32,61 @@
             android:text="Hủy"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ghi_chu_vat_chat_edt"
-            android:layout_marginTop="10dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/facility_note_edt"
+            android:layout_marginTop="10dp"
+            android:onClick="cancelOnAddingFacilityOnClick"/>
 
         <EditText
-            android:id="@+id/ghi_chu_vat_chat_edt"
+            android:id="@+id/facility_note_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="20sp"
+            android:hint="Ghi chú"
+            android:textSize="28sp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ghi_chu_vat_chat_txt" />
+            app:layout_constraintTop_toBottomOf="@+id/facility_number_edt"
+            tools:layout_editor_absoluteY="111dp"
+            android:drawableLeft="@drawable/document"
+            android:gravity="center"/>
 
         <EditText
-            android:id="@+id/ten_vat_chat_edt"
+            android:id="@+id/facility_unit_price_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="20sp"
+            android:hint="Đơn giá"
+            android:textSize="28sp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ten_vat_chat_txt" />
+            app:layout_constraintTop_toBottomOf="@+id/facility_name_edt"
+            android:drawableLeft="@drawable/price"
+            android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/ten_vat_chat_txt"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/facility_name_edt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên vật chất:"
-            android:textColor="@color/normalText"
-            android:textSize="25sp"
+            android:hint="Tên vật chất"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:drawableLeft="@drawable/facility"
+            android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/ghi_chu_vat_chat_txt"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/facility_number_edt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Ghi chú:"
-            android:textColor="@color/normalText"
-            android:textSize="25sp"
+            android:textSize="28sp"
+            android:hint="Số lượng"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ten_vat_chat_edt" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/facility_unit_price_edt"
+            android:drawableLeft="@drawable/number"
+            android:gravity="center"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

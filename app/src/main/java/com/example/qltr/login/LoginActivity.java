@@ -4,13 +4,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -31,8 +36,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     EditText passwordEdt;
     Button loginBtn;
     TextView registerTxt;
-    ProgressBar verificationProgress;
-    TextView verificationTxt;
+    ConstraintLayout loginLayout;
+//    ProgressBar verificationProgress;
+//    TextView verificationTxt;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +51,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         initPresenter();
         getToken();
 
-//        if(token!=null){
-//            presenter.alreadyLoggedIn(token);
-//        }
+        if(token!=null){
+            presenter.alreadyLoggedIn(token);
+        }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
         if (!presenter.isOnline()) {
             raiseConnectionAlert();
@@ -63,9 +70,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         passwordEdt = findViewById(R.id.password_input);
         loginBtn = findViewById(R.id.login_btn);
         registerTxt = findViewById(R.id.register_txt);
-        verificationProgress = findViewById(R.id.verification_progress);
-        verificationTxt = findViewById(R.id.verification_txt);
-
+//        verificationProgress = findViewById(R.id.verification_progress);
+//        verificationTxt = findViewById(R.id.verification_txt);
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        loginLayout=findViewById(R.id.login_layout);
 //        hideLoadingViews();
     }
 
@@ -87,25 +96,47 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
     public void loginOnClick(View view) {
         loading();
+//        progressDialog.show();
+//
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                // YOur Request code here?
+//
+//            }
+//        }, 2000);
+
+//        loading();
+//        ((ViewGroup)findViewById(R.id.login_layout)).invalidate();
+//        loginLayout.invalidate();
+
         presenter.handleLogin(userNameEdt.getText().toString(), passwordEdt.getText().toString());
+//        loading();
     }
 
     @Override
     public void loginSuccess(String token) {
-        sharedPreferences.edit().putString("username", token).apply();
+        progressDialog.dismiss();
+
+        sharedPreferences.edit().putString("token", token).apply();
 
         startActivity(new Intent(this, MainActivity.class).putExtra("token", token));
 
-        hideLoadingViews();
+        finish();
     }
 
     @Override
     public void loginFailure(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        progressDialog.dismiss();
+
+        Toast toast=Toast.makeText(this, error, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 200);
+        TextView v=(TextView) toast.getView().findViewById(android.R.id.message);
+        v.setTextColor(Color.RED);
+        toast.show();
 
         resetTxtInput();
-
-        hideLoadingViews();
     }
 
     @Override
@@ -135,9 +166,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
     @Override
     public void loading() {
-        findViewById(R.id.verification_txt).setVisibility(View.VISIBLE);
-        findViewById(R.id.verification_progress).setVisibility(View.VISIBLE);
-
         View view = getCurrentFocus();
 
         if (view != null) {
@@ -153,7 +181,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     public void hideLoadingViews() {
 //        verificationProgress.setVisibility(View.INVISIBLE);
 //        verificationTxt.setVisibility(View.INVISIBLE);
-        verificationTxt.setVisibility(View.INVISIBLE);
-        verificationProgress.setVisibility(View.INVISIBLE);
+//        verificationTxt.setVisibility(View.INVISIBLE);
+//        verificationProgress.setVisibility(View.INVISIBLE);
     }
 }
