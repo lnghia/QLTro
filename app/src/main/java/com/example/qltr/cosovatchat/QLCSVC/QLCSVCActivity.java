@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ public class QLCSVCActivity extends AppCompatActivity {
     private boolean isLoading;
     private int pageCount=1;
     private String token;
+    private SwipeRefreshLayout pullToRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class QLCSVCActivity extends AppCompatActivity {
         facilities.add(null);
 
         assignViews();
+        assignOnRefreshListener();
         configureFacilitiesRecyclerView();
         getToken();
         loadInitial();
@@ -55,6 +59,19 @@ public class QLCSVCActivity extends AppCompatActivity {
 
     public void assignViews(){
         recyclerView=findViewById(R.id.facilities_recyclerview);
+        pullToRefresh=findViewById(R.id.pull_to_refresh_layout);
+    }
+
+    private void assignOnRefreshListener(){
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!isLoading){
+                    isLoading=true;
+                    loadInitial();
+                }
+            }
+        });
     }
 
     public void createNewFacilityOnClick(View view){
@@ -80,6 +97,10 @@ public class QLCSVCActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
+                if(!isLoading && recyclerView.getLayoutManager()!=null && ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0){
+
+                }
 
                 if(!isLoading &&
                         recyclerView.getLayoutManager()!=null &&
@@ -143,14 +164,18 @@ public class QLCSVCActivity extends AppCompatActivity {
                     }
                     adapter.notifyDataSetChanged();
                 }
+                pullToRefresh.setRefreshing(false);
                 isLoading=false;
             }
 
             @Override
             public void onFailure(Call<GetFacilityApiResponse> call, Throwable t) {
                 Toast.makeText(QLCSVCActivity.this, "Vui lòng kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_LONG).show();
+                pullToRefresh.setRefreshing(false);
                 isLoading=false;
             }
         });
     }
+
+
 }
