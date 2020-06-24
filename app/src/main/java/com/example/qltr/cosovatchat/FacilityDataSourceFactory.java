@@ -1,9 +1,8 @@
 package com.example.qltr.cosovatchat;
 
-import android.content.ClipData;
 import android.content.Context;
 
-import com.example.Models.Facility;
+import com.example.Models.Facility.Facility;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;

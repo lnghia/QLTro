@@ -1,4 +1,4 @@
-package com.example.APIHelpers;
+package com.example.APIHelpers.Api;
 
 import android.app.ProgressDialog;
 import android.content.Context;

@@ -4,10 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.APIHelpers.RetrofitClient;
-import com.example.Models.Facility;
-import com.example.Models.FacilityApiResponse;
+import com.example.Models.Facility.Facility;
+import com.example.Models.Facility.FacilityApiResponse;
 import com.example.qltr.R;
-import com.google.gson.Gson;
 
 import java.util.regex.Pattern;
 
@@ -37,8 +36,8 @@ public class ThemCSVCPresenter implements ThemCSVCContract.Presenter {
         RetrofitClient.getInstance().getApi().createNewFacility(token, newFacility).enqueue(new Callback<FacilityApiResponse>() {
             @Override
             public void onResponse(Call<FacilityApiResponse> call, Response<FacilityApiResponse> response) {
-                Log.i("body", new Gson().toJson(newFacility));
-                Log.i("response", new Gson().toJson(response.body()));
+//                Log.i("body", new Gson().toJson(newFacility));
+//                Log.i("response", new Gson().toJson(response.body()));
 
                 if(response.body()!=null){
                     if(response.body().getSuccess()){

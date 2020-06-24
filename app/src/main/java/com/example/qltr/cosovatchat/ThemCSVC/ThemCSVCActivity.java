@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.APIHelpers.RetrofitClient;
-import com.example.Models.Facility;
+import com.example.Models.Facility.Facility;
 import com.example.qltr.R;
 
 public class ThemCSVCActivity extends AppCompatActivity implements ThemCSVCContract.ThemCSVCView {

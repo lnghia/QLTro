@@ -37,14 +37,14 @@ public class RoomButtonViewAdapter extends RecyclerView.Adapter<RoomButtonViewAd
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_button, parent, false);
 
-        Log.d(TAG, "init viewholder: successful");
+//        Log.d(TAG, "init viewholder: successful");
 
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: called.");
+//        Log.d(TAG, "onBindViewHolder: called.");
 
         holder.roomNum.setText(String.format(Locale.US, "%d", rooms.get(position).getId()));
         holder.area.setText(String.format(Locale.US, "%d", rooms.get(position).getArea()));

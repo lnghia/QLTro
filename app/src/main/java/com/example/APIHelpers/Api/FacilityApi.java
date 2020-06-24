@@ -1,23 +1,21 @@
-package com.example.APIHelpers;
+package com.example.APIHelpers.Api;
 
-import com.example.Models.Facility;
-import com.example.Models.FacilityApiResponse;
+import com.example.Models.Facility.Facility;
+import com.example.Models.Facility.FacilityApiResponse;
+import com.example.Models.Facility.GetFacilityApiResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-public interface Api {
+public interface FacilityApi {
     @GET("facilities")
-    Call<ArrayList<Facility>> getItemsInPage(
+    Call<GetFacilityApiResponse> getItemsInPage(
             @Header("Authorization") String token,
             @Query("page") int page,
             @Query("limit") int limit

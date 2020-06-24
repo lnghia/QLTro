@@ -1,4 +1,6 @@
-package com.example.Models;
+package com.example.Models.Facility;
+
+import com.example.Models.Facility.Facility;
 
 public class FacilityApiResponse {
     private Boolean success;

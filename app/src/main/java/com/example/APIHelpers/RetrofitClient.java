@@ -1,5 +1,7 @@
 package com.example.APIHelpers;
 
+import com.example.APIHelpers.Api.FacilityApi;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -23,7 +25,7 @@ public class RetrofitClient {
         return mInstance;
     }
 
-    public Api getApi(){
-        return retrofit.create(Api.class);
+    public FacilityApi getApi(){
+        return retrofit.create(FacilityApi.class);
     }
 }

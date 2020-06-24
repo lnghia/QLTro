@@ -1,6 +1,6 @@
 package com.example.qltr.cosovatchat.ThemCSVC;
 
-import com.example.Models.Facility;
+import com.example.Models.Facility.Facility;
 
 public interface ThemCSVCContract {
     interface ThemCSVCView{

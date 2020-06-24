@@ -2,7 +2,7 @@ package com.example.qltr.cosovatchat;
 
 import android.content.Context;
 
-import com.example.Models.Facility;
+import com.example.Models.Facility.Facility;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,17 +11,18 @@ import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
 public class FacilityViewModel extends ViewModel {
-    private LiveData<PagedList<Facility>> facilityPagedList;
-    private LiveData<PageKeyedDataSource<Integer, Facility>> liveDataSource;
+    public LiveData<PagedList<Facility>> facilityPagedList;
+    public LiveData<PageKeyedDataSource<Integer, Facility>> liveDataSource;
     private String token;
     private Context context;
 
-    public FacilityViewModel(Context context){
-        this.context=context;
-        token=context.getSharedPreferences("com.example.qltr.login", Context.MODE_PRIVATE).getString("token", null);
-    }
+//    public FacilityViewModel(Context context){
+//        this.context=context;
+//        token=context.getSharedPreferences("com.example.qltr.login", Context.MODE_PRIVATE).getString("token", null);
+//    }
 
-    public FacilityViewModel(){
+    public FacilityViewModel(Context context){
+        token=context.getSharedPreferences("com.example.qltr.login", Context.MODE_PRIVATE).getString("token", null);
         FacilityDataSourceFactory facilityDataSourceFactory=new FacilityDataSourceFactory(context);
         liveDataSource=facilityDataSourceFactory.getFacilityLiveDataSource();
 
