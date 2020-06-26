@@ -25,7 +25,7 @@ public class RetrofitClient {
         return mInstance;
     }
 
-    public FacilityApi getApi(){
+    public FacilityApi getFacilityApi(){
         return retrofit.create(FacilityApi.class);
     }
 }

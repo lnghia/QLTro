@@ -33,7 +33,7 @@ public class FacilityDataSource extends PageKeyedDataSource<Integer, Facility> {
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Facility> callback) {
-        RetrofitClient.getInstance().getApi().getItemsInPage(token, FIRST_PAGE, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
+        RetrofitClient.getInstance().getFacilityApi().getItemsInPage(token, FIRST_PAGE, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
             @Override
             public void onResponse(Call<GetFacilityApiResponse> call, Response<GetFacilityApiResponse> response) {
 //                progressDialog.dismiss();
@@ -51,7 +51,7 @@ public class FacilityDataSource extends PageKeyedDataSource<Integer, Facility> {
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Facility> callback) {
-        RetrofitClient.getInstance().getApi().getItemsInPage(token, params.key, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
+        RetrofitClient.getInstance().getFacilityApi().getItemsInPage(token, params.key, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
             @Override
             public void onResponse(Call<GetFacilityApiResponse> call, Response<GetFacilityApiResponse> response) {
                 if(response.body()!=null){
@@ -69,7 +69,7 @@ public class FacilityDataSource extends PageKeyedDataSource<Integer, Facility> {
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Facility> callback) {
         progressDialog.show();
-        RetrofitClient.getInstance().getApi().getItemsInPage(token, params.key, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
+        RetrofitClient.getInstance().getFacilityApi().getItemsInPage(token, params.key, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
             @Override
             public void onResponse(Call<GetFacilityApiResponse> call, Response<GetFacilityApiResponse> response) {
 //                progressDialog.dismiss();

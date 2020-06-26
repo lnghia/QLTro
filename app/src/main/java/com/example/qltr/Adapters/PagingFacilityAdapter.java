@@ -1,7 +1,9 @@
 package com.example.qltr.Adapters;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -52,7 +54,8 @@ public class PagingFacilityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(holder instanceof FacilityViewHolder){
             ((FacilityViewHolder) holder).facilityPriceDisplayer.setText(Integer.toString(facilities.get(position).getUnitPrice()));
             ((FacilityViewHolder) holder).facilityNameDisplayer.setText(facilities.get(position).getName());
-            //set onLongClickListener
+
+//            mContext.regis
         }
     }
 
@@ -78,26 +81,35 @@ public class PagingFacilityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return facilities.get(pos)==null;
     }
 
-    class FacilityViewHolder extends RecyclerView.ViewHolder {
+    class FacilityViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private TextView facilityNameDisplayer;
         private TextView facilityPriceDisplayer;
-        private View view;
 
         public FacilityViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.view=itemView;
             facilityNameDisplayer=itemView.findViewById(R.id.facility_name_displayer);
             facilityPriceDisplayer=itemView.findViewById(R.id.facility_price_displayer);
+
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(this.getAdapterPosition(), 1, 0, "Sửa");
+            contextMenu.add(this.getAdapterPosition(), 2, 0, "Xóa");
         }
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
-        private View view;
 
         public FooterViewHolder(@NonNull View itemView) {
             super(itemView);
-//            this.view=itemView;
         }
+    }
+
+    public void deleteFacility(int id){
+        facilities.remove(id);
+        notifyDataSetChanged();
     }
 }

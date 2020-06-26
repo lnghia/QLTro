@@ -12,20 +12,26 @@ import retrofit2.Response;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.APIHelpers.RetrofitClient;
 import com.example.Models.Facility.Facility;
 import com.example.Models.Facility.GetFacilityApiResponse;
+import com.example.Utils.ListContainers;
 import com.example.qltr.Adapters.PagingFacilityAdapter;
 import com.example.qltr.R;
+import com.example.qltr.cosovatchat.SuaCSVC.EditCSVCActivity;
 import com.example.qltr.cosovatchat.ThemCSVC.ThemCSVCActivity;
 
 import java.util.ArrayList;
 
-public class QLCSVCActivity extends AppCompatActivity {
+public class QLCSVCActivity extends AppCompatActivity implements QLCSVCContract.QLCSVCView {
     private final int PAGE_SIZE=10;
+
+    private QLCSVCPresenter presenter;
 
     private RecyclerView recyclerView;
     private ArrayList<Facility> facilities;
@@ -35,6 +41,7 @@ public class QLCSVCActivity extends AppCompatActivity {
     private int pageCount=1;
     private String token;
     private SwipeRefreshLayout pullToRefresh;
+    private int selectedFacility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,8 @@ public class QLCSVCActivity extends AppCompatActivity {
         setContentView(R.layout.activity_q_l_c_s_v_c);
 
         isLoading=false;
+
+        presenter=new QLCSVCPresenter(this, this);
 
         facilities=new ArrayList<>();
         facilities.add(null);
@@ -51,6 +60,7 @@ public class QLCSVCActivity extends AppCompatActivity {
         configureFacilitiesRecyclerView();
         getToken();
         loadInitial();
+        ListContainers.getInstance().setFacilities(facilities);
     }
 
     private void getToken(){
@@ -88,6 +98,10 @@ public class QLCSVCActivity extends AppCompatActivity {
         adapter=new PagingFacilityAdapter(this, facilities);
         recyclerView.setAdapter(adapter);
 
+        assignOnScrollEvent();
+    }
+
+    private void assignOnScrollEvent(){
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -98,9 +112,9 @@ public class QLCSVCActivity extends AppCompatActivity {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                if(!isLoading && recyclerView.getLayoutManager()!=null && ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0){
-
-                }
+//                if(!isLoading && recyclerView.getLayoutManager()!=null && ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0){
+//
+//                }
 
                 if(!isLoading &&
                         recyclerView.getLayoutManager()!=null &&
@@ -113,12 +127,50 @@ public class QLCSVCActivity extends AppCompatActivity {
         });
     }
 
+    private void assignContextMenu(){
+        registerForContextMenu(recyclerView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getMenuInflater().inflate(R.menu.facility_long_click_menu, menu);
+
+        selectedFacility=v.getId();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case 1:
+//                Toast.makeText(this, "1 "+item.getGroupId(), Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(this, EditCSVCActivity.class);
+                intent.putExtra("token", token);
+                intent.putExtra("id", item.getGroupId());
+                startActivity(intent);
+                break;
+            case 2:
+//                Toast.makeText(this, "2 "+item.getGroupId(), Toast.LENGTH_SHORT).show();
+                presenter.delete(token, item.getGroupId(), facilities, adapter);
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
     public void loadNextPage(int pageNum){
         facilities.add(null);
         int insertedPos=facilities.size()-1;
         adapter.notifyItemInserted(facilities.size()-1);
 
-        RetrofitClient.getInstance().getApi().getItemsInPage(token, pageNum, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
+        RetrofitClient.getInstance().getFacilityApi().getItemsInPage(token, pageNum, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
             @Override
             public void onResponse(Call<GetFacilityApiResponse> call, Response<GetFacilityApiResponse> response) {
                 if(response.body()!=null && response.body().isSuccess()){
@@ -131,6 +183,7 @@ public class QLCSVCActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                     else{
+
                         facilities.remove(facilities.size()-1);
                         adapter.notifyItemRemoved(facilities.size());
                     }
@@ -153,7 +206,9 @@ public class QLCSVCActivity extends AppCompatActivity {
 
     private void loadInitial(){
         isLoading=true;
-        RetrofitClient.getInstance().getApi().getItemsInPage(token, 1, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
+//        facilities.clear();
+//        adapter.notifyItemRemoved(facilities.size());
+        RetrofitClient.getInstance().getFacilityApi().getItemsInPage(token, 1, PAGE_SIZE).enqueue(new Callback<GetFacilityApiResponse>() {
             @Override
             public void onResponse(Call<GetFacilityApiResponse> call, Response<GetFacilityApiResponse> response) {
                 if(response.body()!=null && response.body().isSuccess()){
@@ -166,6 +221,7 @@ public class QLCSVCActivity extends AppCompatActivity {
                 }
                 pullToRefresh.setRefreshing(false);
                 isLoading=false;
+                pageCount=1;
             }
 
             @Override
@@ -178,4 +234,18 @@ public class QLCSVCActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void editSuccess() {
+
+    }
+
+    @Override
+    public void editFailure(String err) {
+
+    }
+
+    @Override
+    public void raiseNotification(String note) {
+        Toast.makeText(this, note, Toast.LENGTH_LONG).show();
+    }
 }

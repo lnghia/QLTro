@@ -33,7 +33,7 @@ public class ThemCSVCPresenter implements ThemCSVCContract.Presenter {
             return;
         }
         Log.i("token:", token);
-        RetrofitClient.getInstance().getApi().createNewFacility(token, newFacility).enqueue(new Callback<FacilityApiResponse>() {
+        RetrofitClient.getInstance().getFacilityApi().createNewFacility(token, newFacility).enqueue(new Callback<FacilityApiResponse>() {
             @Override
             public void onResponse(Call<FacilityApiResponse> call, Response<FacilityApiResponse> response) {
 //                Log.i("body", new Gson().toJson(newFacility));
