@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PagingFacilityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "RoomButtonViewAdapter";
     private static final int TYPE_HEADER=0;
     private static final int TYPE_ITEM=1;
     private static final int TYPE_FOOTER=2;
@@ -102,7 +101,6 @@ public class PagingFacilityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
-
         public FooterViewHolder(@NonNull View itemView) {
             super(itemView);
         }

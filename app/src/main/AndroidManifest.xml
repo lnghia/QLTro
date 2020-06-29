@@ -17,7 +17,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".cosovatchat.ThemCSVC.ThemCSVCActivity" />
         <activity
-            android:name=".phongtro.ThemPhTr.ThemPhongTro"
+            android:name=".phongtro.ThemPhTr.ThemPhongTroActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".login.LoginActivity"

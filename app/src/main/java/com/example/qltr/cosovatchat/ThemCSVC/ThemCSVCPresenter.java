@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.APIHelpers.RetrofitClient;
 import com.example.Models.Facility.Facility;
 import com.example.Models.Facility.FacilityApiResponse;
+import com.example.Utils.ListContainers;
 import com.example.qltr.R;
 
 import java.util.regex.Pattern;
@@ -42,6 +43,7 @@ public class ThemCSVCPresenter implements ThemCSVCContract.Presenter {
                 if(response.body()!=null){
                     if(response.body().getSuccess()){
                         view.addSuccess(newFacility);
+                        ListContainers.getInstance().getFacilities().add(response.body().getData());
                     }
                     else{
                         view.addFail("Đã tồn tại trong hệ thống!");
@@ -54,7 +56,7 @@ public class ThemCSVCPresenter implements ThemCSVCContract.Presenter {
 
             @Override
             public void onFailure(Call<FacilityApiResponse> call, Throwable t) {
-//                Log.i("t", t.getMessage());
+                Log.i("t", t.getMessage());
                 view.addFail("Lỗi thực thi, vui lòng kiểm tra kết nối mạng !");
             }
         });
