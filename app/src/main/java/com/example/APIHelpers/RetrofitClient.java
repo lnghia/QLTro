@@ -1,6 +1,11 @@
 package com.example.APIHelpers;
 
+import com.example.APIHelpers.Api.ContractApi;
+import com.example.APIHelpers.Api.CustomerApi;
 import com.example.APIHelpers.Api.FacilityApi;
+import com.example.APIHelpers.Api.InvoiceApi;
+import com.example.APIHelpers.Api.LoginApi;
+import com.example.APIHelpers.Api.ReportApi;
 import com.example.APIHelpers.Api.RoomApi;
 
 import retrofit2.Retrofit;
@@ -33,4 +38,20 @@ public class RetrofitClient {
     public RoomApi getRoomApi() {
         return retrofit.create(RoomApi.class);
     }
+
+    public CustomerApi getCustomerApi() {
+        return retrofit.create(CustomerApi.class);
+    }
+
+    public LoginApi getLoginApi() {
+        return retrofit.create(LoginApi.class);
+    }
+
+    public ContractApi getContractApi(){
+        return retrofit.create(ContractApi.class);
+    }
+
+    public InvoiceApi getInvoiceApi() { return retrofit.create(InvoiceApi.class); }
+
+    public ReportApi getReportApi() { return retrofit.create(ReportApi.class); }
 }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".phongtro.SuaPhongTro.SuaPhongTroActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/edit_ten_phong_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/hotel_key"
+            android:hint="Tên phòng"
+            android:gravity="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_tang_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_ten_phong_edt"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/floor"
+            android:hint="Tầng"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/edit_gia_phong_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_tang_edt"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/price"
+            android:hint="Giá phòng"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/edit_dt_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_gia_phong_edt"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/area"
+            android:hint="Diện tích"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/edit_suc_chua_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_dt_edt"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/user"
+            android:hint="Sức chứa"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="52dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="24dp"
+            android:text="Cập nhật"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_suc_chua_edt"
+            android:onClick="editRoomOnClick"/>
+
+        <Button
+            android:id="@+id/cancel_create_new_room_btn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="52dp"
+            android:layout_marginRight="52dp"
+            android:layout_marginTop="24dp"
+            android:text="Hủy"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_suc_chua_edt"
+            android:onClick="cancelEditRoomOnCLick"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

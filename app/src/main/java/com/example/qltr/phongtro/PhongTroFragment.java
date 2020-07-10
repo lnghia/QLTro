@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,9 +18,12 @@ import android.widget.Toast;
 import com.example.APIHelpers.RetrofitClient;
 import com.example.Models.Room.Room;
 import com.example.Models.Room.RoomApiResponse;
+import com.example.Models.Room.RoomTypeBody;
+import com.example.Utils.ListContainers;
 import com.example.qltr.Adapters.RoomButtonViewAdapter;
 import com.example.qltr.R;
 import com.example.qltr.phongtro.PhongTroContract.Presenter;
+import com.example.qltr.phongtro.SuaPhongTro.SuaPhongTroActivity;
 import com.example.qltr.phongtro.ThemPhTr.ThemPhongTroActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -42,6 +46,11 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
     private static final String TAG = "PhongTroFragment";
     private final int PAGE_SIZE = 10;
 
+    public static final int BY_FULL=0;
+    public static final int BY_EMPTY=1;
+    public static final int BY_AVAILABLE=2;
+    public static final int BY_ALL=3;
+
     private RecyclerView recyclerView;
     private Spinner spinner;
     private RoomButtonViewAdapter adapter;
@@ -59,7 +68,8 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
     private Button emptyRoomFilter;
     private Button availableRoomFilter;
     private Button fullRoomFilter;
-    private Boolean isFiltered;
+    private int filteredBy;
+    private Button allRoomFilter;
 
     private PhongTroPresenter presenter;
 
@@ -76,7 +86,9 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
         View view = inflater.inflate(R.layout.fragment_phongtro, containter, false);
 
         pageNum = 1;
-        isFiltered=false;
+        filteredBy=BY_ALL;
+
+        initPresenter();
 
         assignViews(view);
         initViews();
@@ -85,10 +97,13 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
         getToken();
 
         rooms = new ArrayList<>();
-        displayedRooms=new ArrayList<>();
-        displayedRooms.add(null);
+//        displayedRooms=new ArrayList<>();
+        rooms.add(null);
+        adapter = new RoomButtonViewAdapter(getContext(), rooms);
 //        rooms.add(null);
         loadInitial();
+
+        ListContainers.getInstance().setRooms(rooms);
 
         assignOnRefreshListenner();
         assignOnScrollEvent();
@@ -97,13 +112,18 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
         floors = new TreeSet<>();
 //        getFloors();
 
-        presenter = new PhongTroPresenter(getContext(), this);
+//        presenter = new PhongTroPresenter(getContext(), this);
 
         availableRoomsFilterOnClick();
         emptyRoomsFilterOnClick();
         fullRoomsFilterOnClick();
+        allRoomsFilterOnClick();
 
         return view;
+    }
+
+    private void initPresenter(){
+        presenter=new PhongTroPresenter(getContext(), this);
     }
 
     private void getFloors(){
@@ -120,6 +140,7 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
         availableRoomFilter = view.findViewById(R.id.not_full_rooms_btn);
         fullRoomFilter = view.findViewById(R.id.full_rooms_btn);
         spinner=view.findViewById(R.id.floor_spinner);
+        allRoomFilter=view.findViewById(R.id.all_rooms_btn);
     }
 
     private void configSpinner(){
@@ -134,6 +155,7 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
         fullRoomFilter.setBackgroundResource(R.drawable.orange_rounded_button);
         availableRoomFilter.setBackgroundResource(R.drawable.yellow_rounded_button);
         emptyRoomFilter.setBackgroundResource(R.drawable.rounded_button);
+        allRoomFilter.setBackgroundResource(R.drawable.gray_rounded_button);
     }
 
     private void getToken() {
@@ -142,7 +164,6 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        adapter = new RoomButtonViewAdapter(getContext(), displayedRooms);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
     }
@@ -153,6 +174,7 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ThemPhongTroActivity.class);
                 intent.putExtra("token", token);
+                intent.putExtra("filterType", filteredBy);
 
                 startActivity(intent);
             }
@@ -161,6 +183,14 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
 
     public void assignViewsEvents() {
         addRoomButtonOnClick();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        adapter.notifyDataSetChanged();
+//        assignOnRefreshListenner();
     }
 
     @Override
@@ -174,6 +204,8 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
                 }
             }
         });
+
+//        isLoading=false;
     }
 
     @Override
@@ -188,7 +220,7 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
 
         recyclerView.setHasFixedSize(false);
 
-        adapter = new RoomButtonViewAdapter(getContext(), displayedRooms);
+        adapter = new RoomButtonViewAdapter(getContext(), rooms);
         recyclerView.setAdapter(adapter);
 
         assignOnScrollEvent();
@@ -206,48 +238,62 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
+//                Log.i("isLoading", Boolean.toString(isLoading));
+//                Log.i("pos", Integer.toString(((GridLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition()));
+
                 if (!isLoading && recyclerView.getLayoutManager() != null && ((GridLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition() == rooms.size() - 1) {
                     isLoading = true;
-                    loadNextPage(++pageNum);
+                    loadNextPage();
                 }
+
+//                isLoading=false;
             }
         });
     }
 
     public void loadInitial() {
         isLoading = true;
-//        recyclerView.removeAllViewsInLayout();
-        int prevSize = rooms.size();
+//
+        RoomTypeBody roomTypeBody;
 
-//        recyclerView.removeAllViewsInLayout();
+        if(filteredBy==BY_ALL){
+            presenter.loadInitial(token, rooms, 1, PAGE_SIZE);
+        }
+        else{
+            roomTypeBody=getFilterType();
+            presenter.loadInitial(token, rooms, 1, PAGE_SIZE, roomTypeBody);
+        }
 
-        RetrofitClient.getInstance().getRoomApi().getRooms(token, 1, PAGE_SIZE).enqueue(new Callback<RoomApiResponse>() {
-            @Override
-            public void onResponse(Call<RoomApiResponse> call, Response<RoomApiResponse> response) {
-                if (response.body() != null || response.body().isSuccess()) {
-                    rooms.clear();
-                    displayedRooms.clear();
-                    adapter.notifyDataSetChanged();
-//                    adapter.notifyItemRangeRemoved(0, prevSize);
-//                    adapter.notifyItemRemoved(rooms.size());
-                    for (Room room : response.body().getData()) {
-                        rooms.add(room);
-                        displayedRooms.add(room);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-                roomPullToRefreshLayout.setRefreshing(false);
-                isLoading = false;
-                pageNum = 1;
-            }
+        pageNum=1;
+//        setRefresh(false);
+//        isLoading=false;
+    }
 
-            @Override
-            public void onFailure(Call<RoomApiResponse> call, Throwable t) {
-                raiseNote("Vui lòng kiểm tra kết nối và thử lại!");
-                roomPullToRefreshLayout.setRefreshing(false);
-                isLoading = false;
-            }
-        });
+    public void loadNextPage(){
+//        isLoading=false;
+
+        RoomTypeBody roomTypeBody;
+
+        if(filteredBy==BY_ALL){
+            presenter.loadNextPage(token, rooms, ++pageNum, PAGE_SIZE);
+        }
+        else{
+            roomTypeBody=getFilterType();
+            presenter.loadNextPage(token, rooms, ++pageNum, PAGE_SIZE, roomTypeBody);
+        }
+    }
+
+    public RoomTypeBody getFilterType(){
+        switch (filteredBy){
+            case BY_AVAILABLE:
+                return new RoomTypeBody("available");
+            case BY_EMPTY:
+                return new RoomTypeBody("empty");
+            case BY_FULL:
+                return new RoomTypeBody("full");
+        }
+
+         return null;
     }
 
 //    @Override
@@ -276,60 +322,95 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case 1:
+                Intent intent=new Intent(getActivity(), SuaPhongTroActivity.class);
+                intent.putExtra("token", token);
+                intent.putExtra("index", item.getGroupId());
+                intent.putExtra("slotStatus", rooms.get(item.getGroupId()).getSlotStatus());
+                startActivity(intent);
+
                 break;
             case 2:
+                presenter.deleteRoom(token, rooms, item.getGroupId());
                 break;
         }
 
         return super.onContextItemSelected(item);
     }
 
-    public void loadNextPage(int page) {
+//    public void loadNextPage(int page) {
+////        rooms.add(null);
 //        rooms.add(null);
-        displayedRooms.add(null);
-        adapter.notifyItemInserted(displayedRooms.size() - 1);
+//        adapter.notifyItemInserted(rooms.size() - 1);
+//
+//        RoomTypeBody room;
+//
+//        if(filteredBy==BY_ALL){
+//            presenter.getAll(token, rooms, pageNum, 10);
+//
+//            return;
+//        }
+//
+//        switch (filteredBy){
+//            case BY_AVAILABLE:
+//                room=new RoomTypeBody("available");
+//                break;
+//            case BY_EMPTY:
+//                room=new RoomTypeBody("empty");
+//                break;
+//            case BY_FULL:
+//                room=new RoomTypeBody("full");
+//                break;
+//            default:
+//                room=null;
+//                break;
+//        }
 
-        RetrofitClient.getInstance().getRoomApi().getRooms(token, page, PAGE_SIZE).enqueue(new Callback<RoomApiResponse>() {
-            @Override
-            public void onResponse(Call<RoomApiResponse> call, Response<RoomApiResponse> response) {
-                if (response.body() != null && response.body().isSuccess()) {
-                    if (!response.body().getData().isEmpty()) {
+//        RetrofitClient.getInstance().getRoomApi().getRooms(token, page, PAGE_SIZE, room).enqueue(new Callback<RoomApiResponse>() {
+//            @Override
+//            public void onResponse(Call<RoomApiResponse> call, Response<RoomApiResponse> response) {
+//                if (response.body() != null && response.body().isSuccess()) {
+//                    if (!response.body().getData().isEmpty()) {
+////                        rooms.remove(rooms.size() - 1);
+//                        rooms.remove(rooms.size()-1);
+//                        adapter.notifyItemRemoved(rooms.size());
+//                        for (Room room : response.body().getData()) {
+//                            rooms.add(room);
+////                            displayedRooms.add(room);
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    } else {
 //                        rooms.remove(rooms.size() - 1);
-                        displayedRooms.remove(displayedRooms.size()-1);
-                        adapter.notifyItemRemoved(displayedRooms.size());
-                        for (Room room : response.body().getData()) {
-                            rooms.add(room);
-                            displayedRooms.add(room);
-                        }
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        displayedRooms.remove(displayedRooms.size() - 1);
-                        adapter.notifyItemRemoved(displayedRooms.size());
-                    }
-                } else {
-                    displayedRooms.remove(displayedRooms.size() - 1);
-                    adapter.notifyItemRemoved(displayedRooms.size());
-                }
-
-                isLoading = false;
-            }
-
-            @Override
-            public void onFailure(Call<RoomApiResponse> call, Throwable t) {
-                raiseNote("Vui lòng kiểm tra kết nối và thử lại!");
-                isLoading = false;
-            }
-        });
-    }
+//                        adapter.notifyItemRemoved(rooms.size());
+//                    }
+//                } else {
+//                    rooms.remove(rooms.size() - 1);
+//                    adapter.notifyItemRemoved(rooms.size());
+//                }
+//
+//                isLoading = false;
+//            }
+//
+//            @Override
+//            public void onFailure(Call<RoomApiResponse> call, Throwable t) {
+////                roomPullToRefreshLayout.setRefreshing(false);
+////                Log.i("t", t.getMessage());
+//                raiseNote("Vui lòng kiểm tra kết nối và thử lại!");
+//                isLoading = false;
+//            }
+//        });
+//    }
 
     private void emptyRoomsFilterOnClick(){
         emptyRoomFilter.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                presenter.filterEmptyRooms(rooms, displayedRooms, isFiltered);
-                isFiltered=!isFiltered;
-                adapter.notifyDataSetChanged();
+//                presenter.filterEmptyRooms(rooms, displayedRooms, isFiltered);
+//                isFiltered=!isFiltered;
+                filteredBy=BY_EMPTY;
+//                rooms.add(null);
+                loadInitial();
+//                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -339,9 +420,12 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                presenter.filterAvailableRooms(rooms, displayedRooms, isFiltered);
-                isFiltered=!isFiltered;
-                adapter.notifyDataSetChanged();
+//                presenter.filterAvailableRooms(rooms, displayedRooms, isFiltered);
+//                isFiltered=!isFiltered;
+                filteredBy=BY_AVAILABLE;
+//                rooms.add(null);
+                loadInitial();
+//                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -351,10 +435,42 @@ public class PhongTroFragment extends Fragment implements PhongTroContract.View 
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                presenter.filterFullRooms(rooms, displayedRooms, isFiltered);
-                isFiltered=!isFiltered;
-                adapter.notifyDataSetChanged();
+//                presenter.filterFullRooms(rooms, displayedRooms, isFiltered);
+//                isFiltered=!isFiltered;
+                filteredBy=BY_FULL;
+//                rooms.add(null);
+                loadInitial();
+//                adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void allRoomsFilterOnClick(){
+        allRoomFilter.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View view) {
+//                presenter.filterAllRooms(rooms, displayedRooms);
+                filteredBy=BY_ALL;
+                loadInitial();
+//                Log.i("r", Integer.toString(rooms.size()));
+//                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void updateDataSetChanged(){
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setIsLoading(boolean val){
+        isLoading=val;
+    }
+
+    @Override
+    public void setRefresh(boolean value) {
+        roomPullToRefreshLayout.setRefreshing(value);
     }
 }

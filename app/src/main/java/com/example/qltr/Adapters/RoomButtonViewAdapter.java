@@ -2,6 +2,7 @@ package com.example.qltr.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.Models.Room.Room;
+import com.example.Utils.ListContainers;
 import com.example.qltr.R;
+import com.example.qltr.phongtro.MenuPhongTro.MenuPhongActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -27,6 +30,7 @@ public class RoomButtonViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
+    private static final int PRICE_CONS=(int)1e6;
 
     private ArrayList<Room> rooms;
     private Context mContext;
@@ -59,10 +63,10 @@ public class RoomButtonViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             temp.roomNum.setText(rooms.get(position).getName());
             temp.area.setText(Float.toString(rooms.get(position).getSquare()));
-            temp.debt.setText(Integer.toString(rooms.get(position).getPrice()));
+            temp.debt.setText(String.format(Locale.US, "%d tr", (int)rooms.get(position).getPrice()/PRICE_CONS));
             //Drawable icon = AppCompatResources.getDrawable(mContext, R.drawable.price);
             //holder.debt.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-            temp.vehicleNum.setText(String.format(Locale.US, "%d/%d", rooms.get(position).getVehicleNumber(), 4));
+            temp.vehicleNum.setText(String.format(Locale.US, "%d/%d", rooms.get(position).getamountOfVehicles(), 4));
             temp.takenSpot.setText(Integer.toString(rooms.get(position).getCapacity()));
 
             switch (rooms.get(position).getSlotStatus()) {
@@ -97,7 +101,7 @@ public class RoomButtonViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return rooms.get(pos) == null;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
         TextView roomNum;
         TextView debt;
         TextView takenSpot;
@@ -118,12 +122,29 @@ public class RoomButtonViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             availableSlot = itemView.findViewById(R.id.available_slot);
 
             itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.add(getAdapterPosition(), 1, 0, "Sửa");
             contextMenu.add(getAdapterPosition(), 2, 0, "Xóa");
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent=new Intent(mContext, MenuPhongActivity.class);
+
+            intent.putExtra("roomId", rooms.get(getAdapterPosition()).get_id());
+            intent.putExtra("token", ListContainers.getInstance().getToken());
+            intent.putExtra("area", rooms.get(getAdapterPosition()).getSquare());
+            intent.putExtra("vehicleNum", rooms.get(getAdapterPosition()).getSquare());
+            intent.putExtra("roomName", rooms.get(getAdapterPosition()).getName());
+            intent.putExtra("floor", rooms.get(getAdapterPosition()).getFloor());
+            intent.putExtra("roomName", rooms.get(getAdapterPosition()).getName());
+//            intent.putExtra("customerNum", rooms.get(getAdapterPosition()).get)
+
+            mContext.startActivity(intent);
         }
     }
 

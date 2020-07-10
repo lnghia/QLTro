@@ -60,7 +60,7 @@ public class PagingFacilityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return (facilities==null || facilities.isEmpty())?0:facilities.size();
+        return (facilities==null)?0:facilities.size();
     }
 
     @Override

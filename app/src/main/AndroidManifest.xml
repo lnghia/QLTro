@@ -9,7 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".cosovatchat.SuaCSVC.EditCSVCActivity"></activity>
+        <activity android:name=".hopdong.GiaHanHopDong.ContractExtensionActivity"></activity>
+        <activity android:name=".cosovatchat.RoomFacilities.RoomFacilitiesActivity" />
+        <activity android:name=".phuongtien.PhuongTienActivity" />
+        <activity android:name=".hoadon.DetailHoaDon.DetailHoaDon" />
+        <activity android:name=".phananh.PhanAnhActivity" />
+        <activity android:name=".khachtro.SuaKhachTro.SuaKhachTroActivity" />
+        <activity android:name=".hopdong.LapHopdong.CreateContractActivity" />
+        <activity android:name=".hoadon.LapHoaDon.LapHoaDonActivity" />
+        <activity android:name=".hoadon.TraCuuHoaDon.TraCuuHoaDonActivity" />
+        <activity android:name=".phongtro.SuaPhongTro.SuaPhongTroActivity" />
+        <activity android:name=".khachtro.KhachTroDetail.DetailKhachTroActivity" />
+        <activity android:name=".khachtro.DashBoard.DashboardKhachTroActivity" />
+        <activity android:name=".phongtro.MenuPhongTro.MenuPhongActivity" />
+        <activity android:name=".cosovatchat.SuaCSVC.EditCSVCActivity" />
         <activity android:name=".cosovatchat.QLCSVC.QLCSVCActivity" />
         <activity android:name=".loadingscreen.LoadingActivity" />
         <activity

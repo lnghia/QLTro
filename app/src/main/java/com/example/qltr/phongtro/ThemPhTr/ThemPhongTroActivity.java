@@ -17,7 +17,9 @@ public class ThemPhongTroActivity extends AppCompatActivity implements ThemPhong
     private EditText priceEdt;
     private EditText areaEdt;
     private EditText capacityEdt;
+    private EditText vehicleNum;
     private String token;
+    private int filteredBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class ThemPhongTroActivity extends AppCompatActivity implements ThemPhong
         assignViews();
         initPresenter();
         getToken();
+        getFilterType();
     }
 
     private void assignViews() {
@@ -35,6 +38,10 @@ public class ThemPhongTroActivity extends AppCompatActivity implements ThemPhong
         priceEdt = findViewById(R.id.gia_phong_edt);
         areaEdt = findViewById(R.id.dt_edt);
         capacityEdt = findViewById(R.id.suc_chua_edt);
+    }
+
+    private void getFilterType(){
+        filteredBy=getIntent().getExtras().getInt("filterType");
     }
 
     private void getToken() {
@@ -60,7 +67,7 @@ public class ThemPhongTroActivity extends AppCompatActivity implements ThemPhong
                                               Integer.parseInt(floorEdt.getText().toString()),
                                               Integer.parseInt(priceEdt.getText().toString()),
                                               Float.parseFloat(areaEdt.getText().toString()),
-                                              Integer.parseInt(capacityEdt.getText().toString())));
+                                              Integer.parseInt(capacityEdt.getText().toString())), filteredBy);
     }
 
     @Override

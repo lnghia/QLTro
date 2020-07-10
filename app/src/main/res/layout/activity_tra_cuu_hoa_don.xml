@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".hoadon.TraCuuHoaDon.TraCuuHoaDonActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/date_picker_group"
+        android:layout_width="match_parent"
+        android:layout_height="97dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <Button
+            android:id="@+id/invoice_filter_paid"
+            android:layout_width="108dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/rounded_button"
+            android:text="Đã thanh toán"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="filterPaiedInvoices"/>
+
+        <Button
+            android:id="@+id/invoice_filter_unPaid"
+            android:layout_width="110dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/orange_rounded_button"
+            android:text="Chưa thanh toán"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/invoice_filter_paid"
+            android:onClick="filterUnPaiedInvoices"/>
+
+        <Button
+            android:id="@+id/invoice_filter_all"
+            android:layout_width="108dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/rounded_button"
+            android:text="Tất cả"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/invoice_filter_unPaid"
+            android:onClick="filterAllInvoices"/>
+
+        <EditText
+            android:id="@+id/from_date"
+            android:layout_width="183dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/calendar"
+            android:focusable="false"
+            android:gravity="center"
+            android:hint="Từ ngày"
+            android:onClick="fromDateOnClick"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/to_date"
+            android:layout_width="183dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/calendar"
+            android:focusable="false"
+            android:gravity="center"
+            android:hint="Đến ngày"
+            android:onClick="toDateOnClick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/invoice_dashboard_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_picker_group">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hoadon_dashboard"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_picker_group"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

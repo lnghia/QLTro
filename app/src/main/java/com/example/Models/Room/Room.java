@@ -11,9 +11,9 @@ public class Room {
     private int price;
     private float square;
     private int capacity;
-    private int vehicleNumber;
+    private int amountOfVehicles;
 
-    public Room(String slotStatus, String _id, String name, int floor, int price, float square, int capacity, int vehicleNumber) {
+    public Room(String slotStatus, String _id, String name, int floor, int price, float square, int capacity, int amountOfVehicles) {
         this.slotStatus = slotStatus;
         this._id = _id;
         this.name = name;
@@ -21,16 +21,16 @@ public class Room {
         this.price = price;
         this.square = square;
         this.capacity = capacity;
-        this.vehicleNumber = vehicleNumber;
+        this.amountOfVehicles = amountOfVehicles;
     }
 
-    public Room(String name, int floor, int price, float square, int capacity, int vehicleNumber) {
+    public Room(String name, int floor, int price, float square, int capacity, int amountOfVehicles) {
         this.name = name;
         this.floor = floor;
         this.price = price;
         this.square = square;
         this.capacity = capacity;
-        this.vehicleNumber = vehicleNumber;
+        this.amountOfVehicles = amountOfVehicles;
     }
 
     public Room(String name, int floor, int price, float square, int capacity) {
@@ -39,6 +39,14 @@ public class Room {
         this.price = price;
         this.square = square;
         this.capacity = capacity;
+    }
+
+    public Room(String _id) {
+        this._id = _id;
+    }
+
+    public Room(int amountOfVehicles) {
+        this.amountOfVehicles = amountOfVehicles;
     }
 
     public String getSlotStatus() {
@@ -97,11 +105,11 @@ public class Room {
         this.capacity = capacity;
     }
 
-    public int getVehicleNumber() {
-        return vehicleNumber;
+    public int getamountOfVehicles() {
+        return amountOfVehicles;
     }
 
-    public void setVehicleNumber(int vehicleNumber) {
-        this.vehicleNumber = vehicleNumber;
+    public void setamountOfVehicles(int amountOfVehicles) {
+        this.amountOfVehicles = amountOfVehicles;
     }
 }

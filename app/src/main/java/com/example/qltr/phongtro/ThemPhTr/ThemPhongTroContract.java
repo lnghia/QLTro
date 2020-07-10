@@ -10,6 +10,6 @@ public interface ThemPhongTroContract {
     }
 
     interface Presenter{
-        void createNewRoom(String token, Room room);
+        void createNewRoom(String token, Room room, int filterType);
     }
 }

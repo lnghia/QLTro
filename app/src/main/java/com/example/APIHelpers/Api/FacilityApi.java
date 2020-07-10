@@ -17,7 +17,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface FacilityApi {
-    @GET("facilities")
+    @POST("facilities/getAll")
     Call<GetFacilityApiResponse> getItemsInPage(
             @Header("Authorization") String token,
             @Query("page") int page,
@@ -39,6 +39,12 @@ public interface FacilityApi {
 
     @DELETE("facilities/{id}")
     Call<FacilityApiResponse> delete(
+            @Header("Authorization") String token,
+            @Path("id") String id
+    );
+
+    @POST("facilities/{id}/getAll")
+    Call<GetFacilityApiResponse> getRoomFacilities(
             @Header("Authorization") String token,
             @Path("id") String id
     );

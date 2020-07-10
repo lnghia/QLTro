@@ -51,9 +51,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         initPresenter();
         getToken();
 
-        if(token!=null){
-            presenter.alreadyLoggedIn(token);
-        }
+//        if(token!=null){
+//            presenter.alreadyLoggedIn(token);
+//        }
     }
 
     @Override
@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 //        verificationTxt = findViewById(R.id.verification_txt);
         progressDialog=new ProgressDialog(this);
         progressDialog.setCancelable(false);
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         loginLayout=findViewById(R.id.login_layout);
 //        hideLoadingViews();
     }
@@ -96,7 +97,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
     public void loginOnClick(View view) {
         loading();
-//        progressDialog.show();
+        progressDialog.show();
+        progressDialog.setContentView(R.layout.activity_loading);
 //
 //        Handler handler = new Handler();
 //        handler.postDelayed(new Runnable() {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.Utils.ListContainers;
 import com.example.qltr.Adapters.SwipeViewPagerAdapter;
 import com.example.qltr.R;
 import com.google.android.material.tabs.TabLayout;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         init();
 
         Toast.makeText(this, extras.getString("token"), Toast.LENGTH_LONG).show();
+        ListContainers.getInstance().setToken(extras.getString("token"));
     }
 
     private void setView(){

@@ -37,45 +37,74 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/empty_rooms_btn"
-            android:layout_width="99dp"
-            android:layout_height="34dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/rounded_button"
-            android:text="Phòng trống"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/floor_spinner" />
-
-        <Button
-            android:id="@+id/not_full_rooms_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="34dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/rounded_button"
-            android:text="Phòng ghép"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/empty_rooms_btn"
-            app:layout_constraintTop_toBottomOf="@+id/floor_spinner" />
-
-        <Button
-            android:id="@+id/full_rooms_btn"
-            android:layout_width="105dp"
-            android:layout_height="34dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/rounded_button"
-            android:text="Phòng đã đầy"
-            android:textSize="12sp"
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/not_full_rooms_btn"
-            app:layout_constraintTop_toBottomOf="@+id/floor_spinner" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/floor_spinner">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/empty_rooms_btn"
+                    android:layout_width="99dp"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Phòng trống"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/floor_spinner" />
+
+                <Button
+                    android:id="@+id/not_full_rooms_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Phòng ghép"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/empty_rooms_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/floor_spinner" />
+
+                <Button
+                    android:id="@+id/full_rooms_btn"
+                    android:layout_width="105dp"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Phòng đã đầy"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/not_full_rooms_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/floor_spinner" />
+
+                <Button
+                    android:id="@+id/all_rooms_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Tất cả"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
