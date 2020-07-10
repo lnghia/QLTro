@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setView();
         init();
 
-        Toast.makeText(this, extras.getString("token"), Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, extras.getString("token"), Toast.LENGTH_LONG).show();
         ListContainers.getInstance().setToken(extras.getString("token"));
     }
 

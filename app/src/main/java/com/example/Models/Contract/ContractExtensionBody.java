@@ -1,6 +1,9 @@
 package com.example.Models.Contract;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ContractExtensionBody {
+    @SerializedName("dueDate")
     private String dueDate;
 
     public ContractExtensionBody(String dueDate) {

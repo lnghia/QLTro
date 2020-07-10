@@ -26,7 +26,7 @@ public interface ContractApi {
     );
 
     @PUT("contracts/{id}")
-    Call<CreateContractApiResponse> editContract(
+    Call<CreateContractApiResponse> extendContract(
             @Header("Authorization") String token,
             @Path("id") String id,
             @Body ContractExtensionBody body

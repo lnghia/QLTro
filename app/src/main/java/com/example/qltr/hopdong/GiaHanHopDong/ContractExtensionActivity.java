@@ -36,7 +36,7 @@ public class ContractExtensionActivity extends AppCompatActivity {
     }
 
     public void extend(View view) {
-        RetrofitClient.getInstance().getContractApi().editContract(token, roomId, new ContractExtensionBody(datePicker.getText().toString())).enqueue(new Callback<CreateContractApiResponse>() {
+        RetrofitClient.getInstance().getContractApi().extendContract(token, roomId, new ContractExtensionBody(datePicker.getText().toString())).enqueue(new Callback<CreateContractApiResponse>() {
             @Override
             public void onResponse(Call<CreateContractApiResponse> call, Response<CreateContractApiResponse> response) {
                 if(response!=null && response.body()!=null && response.body().isSuccess()){
