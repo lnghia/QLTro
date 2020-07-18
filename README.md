@@ -2,6 +2,6 @@
 
 a school project on managing some basic motel operations
 
-Default account /n
-username: hello /n
+Default account  
+username: hello  
 password: 123456
